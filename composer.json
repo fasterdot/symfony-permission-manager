@@ -1,0 +1,19 @@
+{
+    "name": "dark/symfony-permission-manager",
+    "description": "A Symfony Composer package for flexible and robust permission management.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Dark\\SymfonyPermissionManager\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "David Tondwa",
+            "email": "david.tondwa@hotmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
