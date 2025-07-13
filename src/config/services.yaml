@@ -1,0 +1,7 @@
+services:
+    Fasterdot\PermissionManager\:
+        resource: '../src/'
+        exclude: '../src/{DependencyInjection,Entity,Tests,Kernel.php}'
+
+    Fasterdot\PermissionManager\Twig\PermissionExtension:
+        tags: ['twig.extension']
