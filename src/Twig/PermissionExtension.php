@@ -8,9 +8,9 @@
  */
 declare(strict_types=1);
 
-namespace Dark\SymfonyPermissionManager\Twig;
+namespace Fasterdot\SymfonyPermissionManager\Twig;
 
-use Dark\SymfonyPermissionManager\Helper\PermissionHelper;
+use Fasterdot\SymfonyPermissionManager\Helper\PermissionHelper;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 

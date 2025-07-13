@@ -8,7 +8,7 @@
  */
 declare(strict_types=1);
 
-namespace Dark\SymfonyPermissionManager\Attribute;
+namespace Fasterdot\SymfonyPermissionManager\Attribute;
 
 use Attribute;
 

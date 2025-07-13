@@ -8,7 +8,7 @@
  */
 declare(strict_types=1);
 
-namespace Dark\SymfonyPermissionManager\Helper;
+namespace Fasterdot\SymfonyPermissionManager\Helper;
 
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
