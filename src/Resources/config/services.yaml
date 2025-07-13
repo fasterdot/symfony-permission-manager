@@ -9,5 +9,4 @@ services:
         exclude: '../src/{DependencyInjection,Entity,Tests,Kernel.php}'
 
     Fasterdot\SymfonyPermissionManager\Twig\PermissionExtension: 
-        tags: ['twig.extension']
-    
+        tags: ['twig.extension']   
