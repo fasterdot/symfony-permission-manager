@@ -8,14 +8,14 @@
  */
 declare(strict_types=1);
 
-namespace Fasterdot\PermissionManager;
+namespace Fasterdot\SymfonyPermissionManager;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-class FasterdotPermissionManagerBundle extends Bundle
+class FasterdotSymfonyPermissionManagerBundle extends Bundle
 {
     public function loadExtension(array $configs, ContainerBuilder $container): void
     {
