@@ -17,12 +17,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Aide à la vérification des permissions pour l'utilisateur actuellement connecté.
  *
  * Cette classe fournit une méthode simple pour vérifier si l'utilisateur
- * possède les permissions requises, en s'appuyant sur le système de sécurité
- * de Symfony (notamment les Voters).
+ * possède les permissions requises.
  *
- * L'application consommatrice de ce package devra implémenter des Voters
- * Symfony pour définir la logique de vérification des permissions réelles
- * basées sur ses propres entités (ex: AfUser, Role, Permission).
+ * L'application consommatrice de ce package devra implémenter Une entité Role avec une propriété "name" et 
+ * Une Entité permission avec une propriété "code" lie Role à permission via du ManyToMany. et après tout s'opère
  */
 readonly class PermissionHelper
 {
@@ -35,10 +33,6 @@ readonly class PermissionHelper
 
     /**
      * Vérifie si l'utilisateur actuellement connecté possède au moins une des permissions spécifiées.
-     *
-     * Cette méthode utilise `Security->isGranted()` pour déléguer la vérification
-     * des permissions au système de sécurité de Symfony. Les "permissions" ici
-     * sont des "attributs" au sens de Symfony Security (ex: 'manage_products', 'edit_post').
      *
      * @param string|string[] $permissionNames Un nom de permission unique (string) ou un tableau de noms de permissions (string[]).
      * Si un tableau est fourni, la méthode retourne true si l'utilisateur
@@ -62,7 +56,7 @@ readonly class PermissionHelper
         }
 
         $userPermissions = array_map(
-            fn($perm) => $perm->getName(),
+            fn($perm) => $perm->getCode(),
             $role->getPermissions()->toArray()
         );
 
