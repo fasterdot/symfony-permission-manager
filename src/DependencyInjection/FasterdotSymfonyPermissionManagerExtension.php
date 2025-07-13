@@ -19,7 +19,7 @@ class FasterdotSymfonyPermissionManagerExtension extends Extension
     {
         $loader = new YamlFileLoader(
             $container,
-            new FileLocator(__DIR__ . '/../Resources/config') // ✅ Nouveau chemin
+            new FileLocator(realpath(__DIR__ . '/../Resources/config'))
         );
         $loader->load('services.yaml');
     }

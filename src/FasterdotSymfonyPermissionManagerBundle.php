@@ -7,7 +7,6 @@
  *
  */
 declare(strict_types=1);
-
 namespace Fasterdot\SymfonyPermissionManager;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
