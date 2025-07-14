@@ -14,6 +14,9 @@ use Fasterdot\SymfonyPermissionManager\Attribute\HasPermission;
 use Fasterdot\SymfonyPermissionManager\Helper\PermissionHelper;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
 
 final readonly class PermissionAttributeListener
 {
@@ -21,19 +24,26 @@ final readonly class PermissionAttributeListener
         private PermissionHelper $permissionHelper
     ) {}
 
+    /**
+     * @throws ReflectionException
+     */
     public function __invoke(ControllerEvent $event): void
     {
         $controller = $event->getController();
 
-        if (!is_array($controller)) {
+        if (is_array($controller)) {
+            [$controllerInstance, $method] = $controller;
+            $refMethod = new ReflectionMethod($controllerInstance, $method);
+            $refClass = new ReflectionClass($controllerInstance);
+        } elseif (is_object($controller)) {
+            // Cas d'un contrôleur invocable
+            $refMethod = new ReflectionMethod($controller, '__invoke');
+            $refClass = new ReflectionClass($controller);
+        } else {
             return;
         }
 
-        $refMethod = new \ReflectionMethod($controller[0], $controller[1]);
-        $attributes = [...$refMethod->getAttributes(HasPermission::class)];
-
-        $refClass = new \ReflectionClass($controller[0]);
-        $attributes = [...$attributes, ...$refClass->getAttributes(HasPermission::class)];
+        $attributes = [...$refMethod->getAttributes(HasPermission::class), ...$refClass->getAttributes(HasPermission::class)];
 
         foreach ($attributes as $attr) {
             /** @var HasPermission $permissionAttr */
