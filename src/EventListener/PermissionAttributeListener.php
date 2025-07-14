@@ -35,8 +35,8 @@ final readonly class PermissionAttributeListener
             [$controllerInstance, $method] = $controller;
             $refMethod = new ReflectionMethod($controllerInstance, $method);
             $refClass = new ReflectionClass($controllerInstance);
-        } elseif (is_object($controller)) {
-            // Cas d'un contrôleur invocable
+        } elseif (is_object($controller)) { 
+            // Cas d'un contrôleur invocable v2
             $refMethod = new ReflectionMethod($controller, '__invoke');
             $refClass = new ReflectionClass($controller);
         } else {
