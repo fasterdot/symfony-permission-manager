@@ -10,22 +10,22 @@ declare(strict_types=1);
 
 namespace Fasterdot\SymfonyPermissionManager\Twig;
 
-use Fasterdot\SymfonyPermissionManager\Helper\PermissionHelper;
+use Fasterdot\SymfonyPermissionManager\Domain\Interface\PermissionCheckerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 /**
  * Extension Twig pour vérifier les permissions dans les templates.
  *
- * Cette extension expose la méthode `can` du `PermissionHelper`
+ * Cette extension expose la méthode `can` du `PermissionCheckerInterface`
  * sous forme de fonction Twig `has_permission`.
  */
 class PermissionExtension extends AbstractExtension
 {
     /**
-     * @param PermissionHelper $permissionHelper Le service d'aide aux permissions.
+     * @param PermissionCheckerInterface $permissionChecker Le service de vérification des permissions.
      */
-    public function __construct(private readonly PermissionHelper $permissionHelper) {}
+    public function __construct(private readonly PermissionCheckerInterface $permissionChecker) {}
 
     /**
      * Retourne les fonctions Twig fournies par cette extension.
@@ -35,8 +35,8 @@ class PermissionExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            // Enregistre la fonction Twig 'has_permission' qui appelle la méthode 'can' du PermissionHelper.
-            new TwigFunction('has_permission', [$this->permissionHelper, 'can']),
+            // Enregistre la fonction Twig 'has_permission' qui appelle la méthode 'can' du PermissionChecker.
+            new TwigFunction('has_permission', [$this->permissionChecker, 'can']),
         ];
     }
 }

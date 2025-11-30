@@ -11,17 +11,18 @@ declare(strict_types=1);
 namespace Fasterdot\SymfonyPermissionManager\EventListener;
 
 use Fasterdot\SymfonyPermissionManager\Attribute\HasPermission;
-use Fasterdot\SymfonyPermissionManager\Helper\PermissionHelper;
-use Symfony\Component\HttpKernel\Event\ControllerEvent;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Fasterdot\SymfonyPermissionManager\Domain\Exception\PermissionDeniedException;
+use Fasterdot\SymfonyPermissionManager\Domain\Interface\PermissionCheckerInterface;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 
 final readonly class PermissionAttributeListener
 {
     public function __construct(
-        private PermissionHelper $permissionHelper
+        private PermissionCheckerInterface $permissionChecker,
+        private string $errorMessage = 'Accès refusé : permissions insuffisantes.'
     ) {}
 
     /**
@@ -49,8 +50,8 @@ final readonly class PermissionAttributeListener
             /** @var HasPermission $permissionAttr */
             $permissionAttr = $attr->newInstance();
 
-            if (!$this->permissionHelper->can($permissionAttr->permission)) {
-                throw new AccessDeniedHttpException('Permission refusée : ' . json_encode($permissionAttr->permission));
+            if (!$this->permissionChecker->can($permissionAttr->permission)) {
+                throw new PermissionDeniedException($this->errorMessage);
             }
         }
     }

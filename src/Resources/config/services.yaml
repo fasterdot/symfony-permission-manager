@@ -2,17 +2,29 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
-        public: true
 
     Fasterdot\SymfonyPermissionManager\:
         resource: '../../'
-        exclude: '../../{DependencyInjection,Entity,Tests,Kernel.php}'
+        exclude:
+            - '../../DependencyInjection'
+            - '../../Domain/Exception'
+            - '../../Helper'
+            - '../../{Tests,Kernel.php}'
+
+    # Alias pour l'interface du domaine
+    Fasterdot\SymfonyPermissionManager\Domain\Interface\PermissionCheckerInterface:
+        alias: Fasterdot\SymfonyPermissionManager\Application\Service\PermissionCheckerService
+
+    Fasterdot\SymfonyPermissionManager\Application\Service\PermissionCheckerService:
+        public: false
 
     Fasterdot\SymfonyPermissionManager\Twig\PermissionExtension:
+        public: false
         tags: ['twig.extension']        
     
     Fasterdot\SymfonyPermissionManager\EventListener\PermissionAttributeListener:
-        autowire: true
-        autoconfigure: true
+        public: false
+        arguments:
+            $errorMessage: '%fasterdot_symfony_permission_manager.error_message%'
         tags:
             - { name: kernel.event_listener, event: kernel.controller }
