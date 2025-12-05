@@ -17,6 +17,13 @@ services:
 
     Fasterdot\SymfonyPermissionManager\Application\Service\PermissionCheckerService:
         public: false
+        arguments:
+            $contextualCheckers: !tagged_iterator 'fasterdot.permission.contextual_checker'
+
+    # Tag pour les vérificateurs de permissions contextuelles
+    _instanceof:
+        Fasterdot\SymfonyPermissionManager\Domain\Interface\ContextualPermissionCheckerInterface:
+            tags: ['fasterdot.permission.contextual_checker']
 
     Fasterdot\SymfonyPermissionManager\Twig\PermissionExtension:
         public: false

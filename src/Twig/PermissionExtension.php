@@ -35,8 +35,20 @@ class PermissionExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            // Enregistre la fonction Twig 'has_permission' qui appelle la méthode 'can' du PermissionChecker.
-            new TwigFunction('has_permission', [$this->permissionChecker, 'can']),
+            // Enregistre la fonction Twig 'has_permission' avec support du mode AND/OR
+            new TwigFunction('has_permission', [$this, 'checkPermission']),
         ];
+    }
+
+    /**
+     * Vérifie si l'utilisateur a les permissions requises.
+     *
+     * @param string|array<string> $permissionNames La permission ou le tableau de permissions.
+     * @param string $mode Le mode de vérification : 'OR' (défaut) ou 'AND'.
+     * @return bool Vrai si l'utilisateur a les permissions requises selon le mode.
+     */
+    public function checkPermission(string|array $permissionNames, string $mode = PermissionCheckerInterface::MODE_OR): bool
+    {
+        return $this->permissionChecker->can($permissionNames, $mode);
     }
 }
